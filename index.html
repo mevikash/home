@@ -8,24 +8,37 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <!-- GSAP for animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <!-- Lenis smooth scroll -->
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body class="dark-mode">
+
+  <!-- Custom Cursor -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <div class="cursor-trail-container" id="cursorTrailContainer"></div>
+
+  <!-- Glitter/Sparkle overlay -->
+  <canvas id="glitterCanvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9998;"></canvas>
 
   <!-- ===== NAVBAR ===== -->
   <nav class="navbar" id="navbar">
     <div class="nav-logo">VM</div>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#hero">Home</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#research">Research</a></li>
-      <li><a href="#publications">Publications</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#awards">Awards</a></li>
-      <li><a href="#education">Education</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#hero" class="magnetic">Home</a></li>
+      <li><a href="#about" class="magnetic">About</a></li>
+      <li><a href="#research" class="magnetic">Research</a></li>
+      <li><a href="#publications" class="magnetic">Publications</a></li>
+      <li><a href="#skills" class="magnetic">Skills</a></li>
+      <li><a href="#experience" class="magnetic">Experience</a></li>
+      <li><a href="#projects" class="magnetic">Projects</a></li>
+      <li><a href="#awards" class="magnetic">Awards</a></li>
+      <li><a href="#education" class="magnetic">Education</a></li>
+      <li><a href="#contact" class="magnetic">Contact</a></li>
     </ul>
     <div class="nav-actions">
       <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
@@ -51,8 +64,8 @@
         <p class="hero-affiliation"><i class="fas fa-university"></i> Ph.D. Researcher · The University of Texas at Austin</p>
         <p class="hero-affiliation"><i class="fas fa-flask"></i> Graduate Research Assistant · Cockrell School of Engineering</p>
         <div class="hero-buttons">
-          <a href="#research" class="btn btn-primary">View Research <i class="fas fa-arrow-down"></i></a>
-          <a href="#contact" class="btn btn-outline">Contact Me <i class="fas fa-envelope"></i></a>
+          <a href="#research" class="btn btn-primary magnetic">View Research <i class="fas fa-arrow-down"></i></a>
+          <a href="#contact" class="btn btn-outline magnetic">Contact Me <i class="fas fa-envelope"></i></a>
         </div>
         <div class="hero-socials">
           <a href="https://github.com/mevikash" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
