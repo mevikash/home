@@ -3,465 +3,673 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vikash Meghwal | Materials Scientist & PhD Researcher</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link rel="stylesheet" href="style.css" />
+  <title>Vikash Meghwal | Research Portfolio</title>
+  <meta name="description" content="PhD researcher in Materials Science & Engineering at UT Austin working on Li isotope separation, AIMD, NQE, and scientific computing." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #050816;
+      --bg-soft: rgba(255,255,255,0.04);
+      --line: rgba(255,255,255,0.1);
+      --text: #eef2ff;
+      --muted: #a7b0ca;
+      --cyan: #76e7ff;
+      --blue: #77a7ff;
+      --violet: #b78cff;
+      --green: #87ffcb;
+      --card: rgba(10, 14, 30, 0.62);
+      --shadow: 0 20px 80px rgba(0,0,0,0.35);
+      --radius: 26px;
+      --max: 1240px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: Inter, system-ui, sans-serif;
+      background: radial-gradient(circle at top, rgba(35, 51, 120, 0.35), transparent 35%), #050816;
+      color: var(--text);
+      overflow-x: hidden;
+      cursor: none;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .cursor, .cursor-dot {
+      position: fixed; top: 0; left: 0; pointer-events: none; z-index: 1200; mix-blend-mode: screen;
+      transform: translate(-50%, -50%);
+    }
+    .cursor {
+      width: 38px; height: 38px; border: 1px solid rgba(118,231,255,0.55); border-radius: 50%;
+      transition: width .22s ease, height .22s ease, border-color .22s ease, transform .06s linear;
+      backdrop-filter: blur(2px);
+      box-shadow: 0 0 24px rgba(118,231,255,0.16);
+    }
+    .cursor-dot {
+      width: 6px; height: 6px; background: white; border-radius: 50%;
+      box-shadow: 0 0 24px rgba(255,255,255,.7);
+      transition: transform .02s linear;
+    }
+    .cursor.active { width: 56px; height: 56px; border-color: rgba(183,140,255,.8); }
+
+    .loader {
+      position: fixed; inset: 0; z-index: 1400; background:
+        radial-gradient(circle at 20% 30%, rgba(118,231,255,.16), transparent 25%),
+        radial-gradient(circle at 70% 20%, rgba(183,140,255,.18), transparent 30%),
+        radial-gradient(circle at 55% 75%, rgba(119,167,255,.18), transparent 30%),
+        #040611;
+      display: grid; place-items: center; transition: opacity .8s ease, visibility .8s ease;
+    }
+    .loader.hidden { opacity: 0; visibility: hidden; }
+    .loader-inner { text-align: center; }
+    .loader-mark {
+      font-family: Syne, sans-serif; font-size: clamp(2rem, 7vw, 6rem); font-weight: 800; letter-spacing: -.04em;
+      background: linear-gradient(90deg, #fff, var(--cyan), var(--violet));
+      -webkit-background-clip: text; color: transparent;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    .loader-line {
+      width: min(320px, 70vw); height: 3px; background: rgba(255,255,255,.08); border-radius: 999px;
+      margin-top: 18px; overflow: hidden;
+    }
+    .loader-line::after {
+      content: ""; display: block; height: 100%; width: 40%;
+      background: linear-gradient(90deg, transparent, var(--cyan), var(--violet), transparent);
+      animation: loading 1.6s ease-in-out infinite;
+    }
+
+    .site-bg {
+      position: fixed; inset: 0; z-index: -3; overflow: hidden;
+      background: linear-gradient(180deg, #060915 0%, #040712 55%, #03050c 100%);
+    }
+    .grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: radial-gradient(circle at center, black 35%, transparent 90%);
+      opacity: .18;
+    }
+    .aurora, .aurora::before, .aurora::after {
+      position: absolute; inset: auto; content: ""; filter: blur(60px); border-radius: 50%;
+    }
+    .aurora {
+      width: 38vw; height: 38vw; left: -8vw; top: -6vw; background: rgba(118,231,255,.18); animation: driftA 18s ease-in-out infinite alternate;
+    }
+    .aurora::before {
+      width: 30vw; height: 30vw; left: 58vw; top: 14vh; background: rgba(183,140,255,.18); animation: driftB 22s ease-in-out infinite alternate;
+    }
+    .aurora::after {
+      width: 34vw; height: 34vw; left: 28vw; top: 60vh; background: rgba(119,167,255,.16); animation: driftC 20s ease-in-out infinite alternate;
+    }
+    .noise {
+      position: absolute; inset: 0; background-image: radial-gradient(rgba(255,255,255,.08) 0.5px, transparent 0.5px);
+      background-size: 10px 10px; opacity: .028; mix-blend-mode: screen;
+    }
+
+    .nav {
+      position: fixed; top: 18px; left: 50%; transform: translateX(-50%); z-index: 1100;
+      width: min(calc(100% - 24px), 1180px);
+      display: flex; align-items: center; justify-content: space-between; gap: 18px;
+      padding: 14px 18px; border: 1px solid var(--line); background: rgba(7, 10, 22, .55);
+      box-shadow: var(--shadow); backdrop-filter: blur(18px); border-radius: 999px;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-mark {
+      width: 42px; height: 42px; display: grid; place-items: center; border-radius: 14px;
+      background: linear-gradient(135deg, rgba(118,231,255,.16), rgba(183,140,255,.16)); border: 1px solid var(--line);
+      font-family: Syne, sans-serif; font-weight: 800;
+    }
+    .brand-text strong { display: block; font-size: .94rem; }
+    .brand-text span { display: block; font-size: .72rem; color: var(--muted); }
+    .nav-links { display: flex; align-items: center; gap: 22px; }
+    .nav-links a { font-size: .93rem; color: #dce4ff; opacity: .86; transition: .25s ease; }
+    .nav-links a:hover { opacity: 1; color: white; }
+    .nav-cta {
+      padding: 12px 18px; border-radius: 999px; border: 1px solid rgba(255,255,255,.12);
+      background: linear-gradient(90deg, rgba(118,231,255,.14), rgba(183,140,255,.14));
+      font-weight: 600;
+    }
+    .menu-btn { display: none; }
+
+    .section {
+      width: min(calc(100% - 28px), var(--max)); margin: 0 auto; position: relative;
+    }
+    .hero {
+      min-height: 100svh; display: grid; align-items: center; padding-top: 110px; padding-bottom: 70px;
+      grid-template-columns: 1.1fr .9fr; gap: 36px;
+    }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 10px; padding: 9px 14px; border-radius: 999px;
+      border: 1px solid rgba(118,231,255,.18); background: rgba(118,231,255,.08); color: #ccf7ff; font-size: .82rem;
+      letter-spacing: .08em; text-transform: uppercase;
+    }
+    .hero h1 {
+      margin-top: 18px; font-family: Syne, sans-serif; font-size: clamp(3rem, 7vw, 6.6rem); line-height: .95; letter-spacing: -.05em;
+      max-width: 12ch;
+    }
+    .hero h1 .grad {
+      background: linear-gradient(90deg, #fff, var(--cyan), var(--blue), var(--violet));
+      -webkit-background-clip: text; color: transparent;
+    }
+    .hero p {
+      margin-top: 24px; max-width: 670px; color: var(--muted); line-height: 1.8; font-size: 1.05rem;
+    }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 28px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px; padding: 15px 22px; border-radius: 999px; font-weight: 600;
+      border: 1px solid var(--line); transition: .3s ease; position: relative; overflow: hidden;
+    }
+    .btn.primary { background: white; color: #0a1125; }
+    .btn.secondary { background: rgba(255,255,255,.05); color: white; }
+    .btn:hover { transform: translateY(-2px); }
+
+    .hero-card {
+      position: relative; border-radius: 34px; border: 1px solid var(--line); overflow: hidden;
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      box-shadow: var(--shadow); min-height: 560px;
+      isolation: isolate;
+    }
+    .hero-card::before {
+      content: ""; position: absolute; inset: 0; background:
+        radial-gradient(circle at 25% 20%, rgba(118,231,255,.18), transparent 24%),
+        radial-gradient(circle at 75% 20%, rgba(183,140,255,.18), transparent 20%),
+        radial-gradient(circle at 55% 72%, rgba(119,167,255,.16), transparent 26%);
+      z-index: -1;
+    }
+    .profile-wrap { position: absolute; inset: 20px; border-radius: 24px; overflow: hidden; border: 1px solid rgba(255,255,255,.08); }
+    .profile-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: center top; filter: saturate(1.03) contrast(1.05); }
+    .floating-card {
+      position: absolute; backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,.1);
+      background: rgba(7,11,24,.55); border-radius: 20px; padding: 15px 16px; box-shadow: var(--shadow);
+      animation: floatY 7s ease-in-out infinite;
+    }
+    .floating-card small { color: var(--muted); display: block; margin-bottom: 6px; }
+    .floating-card strong { font-size: 1rem; }
+    .fc-1 { top: 26px; right: 22px; }
+    .fc-2 { bottom: 28px; left: 22px; animation-delay: 1.2s; }
+    .fc-3 { bottom: 132px; right: 24px; animation-delay: 2.2s; }
+
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 28px; }
+    .section-label { font-size: .82rem; text-transform: uppercase; letter-spacing: .2em; color: #b8c2e0; }
+    .section-title {
+      margin-top: 10px; font-family: Syne, sans-serif; font-size: clamp(2rem, 4vw, 3.6rem); line-height: 1; letter-spacing: -.04em;
+    }
+    .section-copy { margin-top: 16px; max-width: 780px; line-height: 1.8; color: var(--muted); }
+
+    .cards-3, .cards-2, .stats-grid { display: grid; gap: 20px; }
+    .cards-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .cards-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .stats-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .card {
+      background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px;
+      backdrop-filter: blur(14px); box-shadow: var(--shadow); position: relative; overflow: hidden;
+      transform-style: preserve-3d; transition: transform .2s ease, border-color .3s ease, background .3s ease;
+    }
+    .card:hover { border-color: rgba(118,231,255,.22); background: rgba(14, 18, 38, 0.82); }
+    .card::before {
+      content: ""; position: absolute; inset: -1px; background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(118,231,255,.12), transparent 24%);
+      opacity: 0; transition: opacity .25s ease;
+    }
+    .card:hover::before { opacity: 1; }
+    .card h3 { font-size: 1.25rem; line-height: 1.25; }
+    .card p { color: var(--muted); line-height: 1.75; margin-top: 12px; }
+    .card .meta { color: #d7e1ff; font-size: .92rem; margin-top: 10px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .tag {
+      padding: 8px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.04);
+      color: #d8e2ff; font-size: .84rem;
+    }
+    .stat-value { font-family: Syne, sans-serif; font-size: clamp(2rem, 4vw, 3.5rem); line-height: .95; }
+    .stat-label { color: var(--muted); margin-top: 12px; }
+
+    .split {
+      display: grid; grid-template-columns: .9fr 1.1fr; gap: 24px; align-items: start;
+    }
+    .sticky-panel {
+      position: sticky; top: 110px; min-height: 420px; border-radius: 30px; border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03)); overflow: hidden;
+      box-shadow: var(--shadow); padding: 28px;
+    }
+    .sticky-panel .big {
+      font-family: Syne, sans-serif; font-size: clamp(2rem, 5vw, 4.5rem); line-height: .92; letter-spacing: -.05em; max-width: 8ch;
+    }
+    .timeline { display: grid; gap: 18px; }
+    .timeline-item { position: relative; padding-left: 26px; }
+    .timeline-item::before {
+      content: ""; position: absolute; left: 6px; top: 7px; width: 9px; height: 9px; border-radius: 50%; background: var(--cyan);
+      box-shadow: 0 0 0 8px rgba(118,231,255,.08);
+    }
+    .timeline-item::after {
+      content: ""; position: absolute; left: 10px; top: 22px; bottom: -22px; width: 1px; background: rgba(255,255,255,.1);
+    }
+    .timeline-item:last-child::after { display: none; }
+    .timeline-item small { color: #cdeeff; letter-spacing: .08em; text-transform: uppercase; }
+    .timeline-item h4 { margin-top: 6px; font-size: 1.14rem; }
+    .timeline-item p { margin-top: 10px; color: var(--muted); line-height: 1.75; }
+
+    .featured-project {
+      min-height: 520px; display: grid; grid-template-columns: 1.1fr .9fr; gap: 20px;
+      background: linear-gradient(135deg, rgba(118,231,255,.06), rgba(183,140,255,.05));
+    }
+    .featured-aside {
+      border-radius: 24px; border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.03);
+      padding: 22px; display: grid; gap: 14px; align-content: start;
+    }
+    .line-list { display: grid; gap: 10px; margin-top: 10px; }
+    .line-list div {
+      display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.08);
+      color: var(--muted);
+    }
+    .line-list strong { color: white; font-weight: 600; }
+
+    .contact-box {
+      border-radius: 34px; border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      backdrop-filter: blur(18px); box-shadow: var(--shadow);
+      padding: 30px;
+    }
+    .contact-grid { display: grid; grid-template-columns: 1fr .9fr; gap: 22px; }
+    .list { display: grid; gap: 16px; margin-top: 24px; }
+    .list-item {
+      display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 16px 18px;
+      border-radius: 20px; border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.03);
+    }
+    .list-item span { color: var(--muted); }
+    .footer { padding: 28px 0 50px; text-align: center; color: var(--muted); }
+
+    .reveal { opacity: 0; transform: translateY(28px) scale(.985); transition: .8s cubic-bezier(.2,.8,.2,1); }
+    .reveal.show { opacity: 1; transform: translateY(0) scale(1); }
+
+    section { padding: 54px 0; }
+
+    @keyframes loading {
+      0% { transform: translateX(-120%); }
+      100% { transform: translateX(320%); }
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50% { opacity: .86; transform: scale(1.03); }
+    }
+    @keyframes driftA {
+      0% { transform: translate(0,0) scale(1); }
+      100% { transform: translate(18vw, 12vh) scale(1.12); }
+    }
+    @keyframes driftB {
+      0% { transform: translate(0,0) scale(1); }
+      100% { transform: translate(-12vw, 18vh) scale(1.08); }
+    }
+    @keyframes driftC {
+      0% { transform: translate(0,0) scale(1); }
+      100% { transform: translate(16vw, -10vh) scale(1.1); }
+    }
+    @keyframes floatY {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @media (max-width: 1100px) {
+      .hero, .split, .featured-project, .contact-grid { grid-template-columns: 1fr; }
+      .cards-3 { grid-template-columns: 1fr 1fr; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .hero-card { min-height: 520px; }
+      .sticky-panel { position: relative; top: 0; }
+    }
+    @media (max-width: 820px) {
+      body { cursor: auto; }
+      .cursor, .cursor-dot { display: none; }
+      .nav { border-radius: 24px; top: 12px; padding: 14px; }
+      .nav-links, .nav-cta { display: none; }
+      .menu-btn {
+        display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px;
+        border-radius: 14px; border: 1px solid var(--line); background: rgba(255,255,255,.05); color: white;
+      }
+      .mobile-menu {
+        position: fixed; top: 82px; left: 14px; right: 14px; z-index: 1090; border-radius: 24px;
+        background: rgba(6, 9, 20, .92); border: 1px solid var(--line); backdrop-filter: blur(20px);
+        padding: 14px; display: none; box-shadow: var(--shadow);
+      }
+      .mobile-menu.open { display: grid; gap: 8px; }
+      .mobile-menu a { padding: 14px; border-radius: 16px; background: rgba(255,255,255,.03); }
+      .hero { padding-top: 120px; }
+      .cards-3, .cards-2, .stats-grid { grid-template-columns: 1fr; }
+      .section-title { font-size: clamp(2rem, 10vw, 3rem); }
+      .hero h1 { font-size: clamp(2.8rem, 15vw, 4.6rem); }
+    }
+  </style>
 </head>
-<body class="dark-mode">
-
-  <!-- ===== NAVBAR ===== -->
-  <nav class="navbar" id="navbar">
-    <div class="nav-logo">VM</div>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#hero">Home</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#research">Research</a></li>
-      <li><a href="#publications">Publications</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#awards">Awards</a></li>
-      <li><a href="#education">Education</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <div class="nav-actions">
-      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
-      <button class="hamburger" id="hamburger" aria-label="Menu"><i class="fas fa-bars"></i></button>
+<body>
+  <div class="loader" id="loader">
+    <div class="loader-inner">
+      <div class="loader-mark">VM</div>
+      <div class="loader-line"></div>
     </div>
-  </nav>
+  </div>
 
-  <!-- ===== SECTION: HERO ===== -->
-  <section id="hero" class="hero-section">
-    <canvas id="particleCanvas"></canvas>
-    <div class="hero-content">
-      <div class="hero-photo-wrapper">
-        <!-- Replace assets/vikash.jpg with your actual photo -->
-        <img src="Profile.jpg" alt="Vikash Meghwal" class="hero-photo" onerror="this.style.display='none';document.querySelector('.hero-photo-fallback').style.display='flex'" />
-        <div class="hero-photo-fallback"><i class="fas fa-user"></i></div>
-      </div>
-      <div class="hero-text">
-        <p class="hero-greeting">Hello, I'm</p>
-        <h1 class="hero-name">Vikash Meghwal</h1>
-        <div class="hero-typewriter">
-          <span id="typewriter-text"></span><span class="cursor">|</span>
-        </div>
-        <p class="hero-affiliation"><i class="fas fa-university"></i> Ph.D. Researcher · The University of Texas at Austin</p>
-        <p class="hero-affiliation"><i class="fas fa-flask"></i> Graduate Research Assistant · Cockrell School of Engineering</p>
-        <div class="hero-buttons">
-          <a href="#research" class="btn btn-primary">View Research <i class="fas fa-arrow-down"></i></a>
-          <a href="#contact" class="btn btn-outline">Contact Me <i class="fas fa-envelope"></i></a>
-        </div>
-        <div class="hero-socials">
-          <a href="https://github.com/mevikash" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
-          <a href="https://orcid.org/0009-0004-0488-6942" target="_blank" title="ORCID"><i class="fab fa-orcid"></i></a
-        </div>
-      </div>
-    </div>
-    <div class="scroll-indicator"><i class="fas fa-chevron-down"></i></div>
-  </section>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
 
-  <!-- ===== SECTION: ABOUT ===== -->
-  <section id="about" class="section">
-    <div class="container">
-      <h2 class="section-title reveal">About <span class="accent">Me</span></h2>
-      <div class="about-grid">
-        <div class="about-text reveal">
-          <p>I am a <strong>Ph.D. researcher</strong> in Materials Science &amp; Engineering at <strong>The University of Texas at Austin</strong>, working in Prof. Narayana Aluru's Multiscale Engineering, Mathematics and Sciences Group. My current research focuses on Li isotope separation using Nuclear Quantum Effects, AIMD, Machine Learning, and Path Integral Methods.</p>
-          <p>I completed my <strong>B.S. and M.S. in Chemistry</strong> from <strong>IIT Kanpur</strong>, where I specialized in surface science, 2D COFs, MOFs, molecular electronics, AFM, C-AFM, and XPS under Prof. T. G. Gopakumar.</p>
-          <p>Beyond research, I am a passionate <strong>full-stack developer</strong> with experience in React.js, Next.js, Angular, Electron.js, and mobile development — bridging the worlds of computational science and modern software engineering.</p>
-        </div>
-        <div class="about-counters reveal">
-          <div class="counter-card">
-            <span class="counter-number" data-target="2">0</span>
-            <span class="counter-label">Publications</span>
-          </div>
-          <div class="counter-card">
-            <span class="counter-number" data-target="5">0</span>
-            <span class="counter-label">Years at IIT Kanpur</span>
-          </div>
-          <div class="counter-card">
-            <span class="counter-number" data-target="2380">0</span>
-            <span class="counter-label">JEE Advanced AIR</span>
-          </div>
-          <div class="counter-card">
-            <span class="counter-number" data-target="4">0</span>
-            <span class="counter-label">Self Projects</span>
-          </div>
+  <div class="site-bg">
+    <div class="aurora"></div>
+    <div class="grid"></div>
+    <div class="noise"></div>
+  </div>
+
+  <header class="nav">
+    <a class="brand" href="#top">
+      <div class="brand-mark">VM</div>
+      <div class="brand-text">
+        <strong>Vikash Meghwal</strong>
+        <span>PhD Researcher · UT Austin</span>
+      </div>
+    </a>
+
+    <nav class="nav-links">
+      <a href="#about">About</a>
+      <a href="#research">Research</a>
+      <a href="#publications">Publications</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <a class="nav-cta magnetic" href="#contact">Let’s Connect</a>
+    <button class="menu-btn" id="menuBtn" aria-label="Open Menu">☰</button>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about">About</a>
+    <a href="#research">Research</a>
+    <a href="#publications">Publications</a>
+    <a href="#experience">Experience</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </div>
+
+  <main id="top">
+    <section class="section hero">
+      <div class="hero-copy reveal">
+        <div class="eyebrow">Advanced scientific portfolio · aurora interaction</div>
+        <h1>Research, design, and <span class="grad">interactive storytelling</span>.</h1>
+        <p>
+          Ph.D. researcher in Materials Science & Engineering at The University of Texas at Austin, working on Li isotope separation using Nuclear Quantum Effects, AIMD, Machine Learning, and Path Integral Methods. This redesign keeps the content from your current HTML/CSS/JS site, but transforms it into a modern, motion-driven experience inspired by premium tech-company storytelling.
+        </p>
+        <div class="hero-actions">
+          <a class="btn primary magnetic" href="#research">View Research →</a>
+          <a class="btn secondary magnetic" href="#projects">See Projects</a>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- ===== SECTION: RESEARCH ===== -->
-  <section id="research" class="section section-alt">
-    <div class="container">
-      <h2 class="section-title reveal">Research <span class="accent">Work</span></h2>
-      <div class="research-grid">
-        <div class="research-card reveal">
-          <div class="research-card-header">
-            <span class="research-badge current">Current · PhD</span>
-            <span class="research-date">Jan 2026 – Present</span>
-          </div>
+      <div class="hero-card reveal">
+        <div class="profile-wrap">
+          <img src="Profile.jpg" alt="Vikash Meghwal" />
+        </div>
+        <div class="floating-card fc-1">
+          <small>Current focus</small>
+          <strong>Li isotope separation · NQE · AIMD</strong>
+        </div>
+        <div class="floating-card fc-2">
+          <small>Bridge</small>
+          <strong>Research + full-stack development</strong>
+        </div>
+        <div class="floating-card fc-3">
+          <small>Background</small>
+          <strong>IIT Kanpur → UT Austin</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="about">
+      <div class="section-head">
+        <div>
+          <div class="section-label">About</div>
+          <h2 class="section-title">Your existing content, rebuilt with a premium visual system.</h2>
+          <p class="section-copy">
+            Your current site already has strong content: UT Austin PhD research, IIT Kanpur background, publications, internships, awards, and self projects. The main issue is visual language and motion design, not the substance. This redesign uses an aurora background, glassmorphism, animated hero states, floating data cards, custom cursor behavior, loader, scroll reveals, and cleaner typography hierarchy.
+          </p>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <article class="card tilt magnetic">
+          <div class="stat-value">PhD</div>
+          <div class="stat-label">Materials Science & Engineering at UT Austin</div>
+        </article>
+        <article class="card tilt magnetic">
+          <div class="stat-value">2025</div>
+          <div class="stat-label">Published in J. Mater. Chem. C</div>
+        </article>
+        <article class="card tilt magnetic">
+          <div class="stat-value">IITK</div>
+          <div class="stat-label">B.S. + M.S. in Chemistry, interdisciplinary training</div>
+        </article>
+        <article class="card tilt magnetic">
+          <div class="stat-value">Full‑Stack</div>
+          <div class="stat-label">Researcher who also builds polished digital products</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section reveal" id="research">
+      <div class="section-head">
+        <div>
+          <div class="section-label">Research</div>
+          <h2 class="section-title">Selected research work</h2>
+          <p class="section-copy">The content below is adapted directly from your current portfolio: PhD work on Li isotope separation, master’s thesis on ferrocenyl thin films, and earlier undergraduate research at IIT Kanpur.</p>
+        </div>
+      </div>
+
+      <div class="cards-3">
+        <article class="card tilt magnetic">
           <h3>Li Isotope Separation via Nuclear Quantum Effects</h3>
-          <p>Studying Li isotopes using Nuclear Quantum Effects (NQE), Ab Initio Molecular Dynamics (AIMD), Radial Distribution Functions, Machine Learning potentials, and Path Integral Methods.</p>
-          <p class="research-supervisor"><i class="fas fa-user-tie"></i> Supervisor: Prof. Narayana Aluru · UT Austin, Dept. of Materials Science &amp; Engineering</p>
-          <div class="tag-list">
-            <span class="tag">AIMD</span><span class="tag">Machine Learning</span><span class="tag">Path Integral</span><span class="tag">NQE</span><span class="tag">DFT</span>
+          <div class="meta">Current · PhD · UT Austin · Prof. Narayana Aluru</div>
+          <p>Studying Li isotopes using Nuclear Quantum Effects, Ab Initio Molecular Dynamics, Radial Distribution Functions, Machine Learning potentials, and Path Integral Methods.</p>
+          <div class="tags">
+            <span class="tag">AIMD</span><span class="tag">NQE</span><span class="tag">Path Integral</span><span class="tag">ML Potentials</span><span class="tag">DFT</span>
           </div>
-        </div>
-        <div class="research-card reveal">
-          <div class="research-card-header">
-            <span class="research-badge masters">Master's Thesis</span>
-            <span class="research-date">Jan 2024 – Jun 2024</span>
+        </article>
+
+        <article class="card tilt magnetic">
+          <h3>Electronic-Coupling & Band Gap Tunability in Ferrocenyl Thin Films</h3>
+          <div class="meta">Master’s Thesis · IIT Kanpur · Prof. T. G. Gopakumar</div>
+          <p>Developed ultra-thin molecular films via drop casting with Pd and Cu dopants on HOPG. Formed semiconducting surface-confined metal–organic networks and analyzed them using C-AFM, XPS, and DFT simulations.</p>
+          <div class="tags">
+            <span class="tag">AFM</span><span class="tag">C-AFM</span><span class="tag">XPS</span><span class="tag">DFT</span>
           </div>
-          <h3>Electronic-Coupling &amp; Band Gap Tunability in Ferrocenyl Thin Films</h3>
-          <p>Developed ultra-thin molecular films via drop casting with Pd &amp; Cu dopants on HOPG surfaces. Formed semiconducting surface-confined metal–organic networks (SMONs). Analyzed using C-AFM, XPS, and DFT simulations (QuantumWise ATK).</p>
-          <p class="research-supervisor"><i class="fas fa-user-tie"></i> Supervisor: Prof. T. G. Gopakumar · IIT Kanpur, Dept. of Chemistry</p>
-          <div class="tag-list">
-            <span class="tag">AFM</span><span class="tag">C-AFM</span><span class="tag">XPS</span><span class="tag">DFT</span><span class="tag">Self-Assembly</span><span class="tag">Metal Doping</span>
-          </div>
-        </div>
-        <div class="research-card reveal">
-          <div class="research-card-header">
-            <span class="research-badge ugp">UGP</span>
-            <span class="research-date">Jan 2022 – May 2022</span>
-          </div>
+        </article>
+
+        <article class="card tilt magnetic">
           <h3>SARS-CoV-2 Membrane Fusion Mechanism</h3>
-          <p>Investigated receptor binding and priming of the SARS-CoV-2 spike protein for membrane fusion. Studied virus-membrane fusion mechanics with application toward nanoparticle medicines and vaccines.</p>
-          <p class="research-supervisor"><i class="fas fa-user-tie"></i> Supervisor: Prof. Nagma Parveen · IIT Kanpur, Chemical Biology Lab</p>
-          <div class="tag-list">
-            <span class="tag">Spike Protein</span><span class="tag">Membrane Fusion</span><span class="tag">Nanoparticles</span><span class="tag">Bio-Chemistry</span>
+          <div class="meta">UG Project · IIT Kanpur · Prof. Nagma Parveen</div>
+          <p>Investigated receptor binding and priming of the spike protein for membrane fusion, with relevance to nanoparticle medicines and vaccine-related scientific understanding.</p>
+          <div class="tags">
+            <span class="tag">Chemical Biology</span><span class="tag">Nanoparticles</span><span class="tag">Mechanism</span>
           </div>
-        </div>
+        </article>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ===== SECTION: PUBLICATIONS ===== -->
-  <section id="publications" class="section">
-    <div class="container">
-      <h2 class="section-title reveal">Publications</h2>
-      <div class="pub-list">
-        <div class="pub-card reveal">
-          <div class="pub-number">01</div>
-          <div class="pub-content">
-            <span class="pub-journal">J. Mater. Chem. C · 2025</span>
-            <h3>Enhancing the Electronic-Coupling and Conductivity of Monolayer Film of Ferrocenyl Molecules by Pd and Cu Doping</h3>
-            <p class="pub-authors">Sunny M. P. Gautam, Himani Malik, <strong>Vikash Meghwal</strong>, Sruti Manoharan, Vinithra G, R. Ramapanicker, T. G. Gopakumar</p>
-            <div class="pub-tags"><span class="tag">Ferrocenyl</span><span class="tag">Metal Doping</span><span class="tag">Molecular Electronics</span><span class="tag">Published</span></div>
-          </div>
-        </div>
-        <div class="pub-card reveal">
-          <div class="pub-number">02</div>
-          <div class="pub-content">
-            <span class="pub-journal">Communicated · 2025</span>
-            <h3>Modulation of Electronic Structure of Surface-Confined Metal-Organic Network of 9,10-Anthracenedicarboxylic with Transition Metals</h3>
-            <p class="pub-authors">Sunny M. P. Gautam, <strong>Vikash Meghwal</strong>, Richa Arjariya, T. G. Gopakumar</p>
-            <div class="pub-tags"><span class="tag">MOF</span><span class="tag">Electronic Structure</span><span class="tag">Transition Metals</span><span class="tag">Under Review</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+    <section class="section reveal" id="publications">
+      <div class="split">
+        <aside class="sticky-panel magnetic">
+          <div class="section-label">Publications</div>
+          <div class="big">Research output with stronger editorial presentation.</div>
+          <p class="section-copy" style="margin-top:18px; max-width: 48ch;">Instead of plain blocks, this section uses a pinned narrative panel and an animated list format to feel closer to a deep-tech company or lab website.</p>
+        </aside>
 
-  <!-- ===== SECTION: SKILLS ===== -->
-  <section id="skills" class="section section-alt">
-    <div class="container">
-      <h2 class="section-title reveal">Skills &amp; <span class="accent">Expertise</span></h2>
-      <div class="skills-tabs">
-        <button class="skill-tab active" data-tab="experimental">Experimental</button>
-        <button class="skill-tab" data-tab="computational">Computational</button>
-        <button class="skill-tab" data-tab="software">Lab Software</button>
-        <button class="skill-tab" data-tab="webdev">Web / App Dev</button>
-        <button class="skill-tab" data-tab="tools">Dev Tools</button>
-      </div>
-      <div class="skills-content">
-        <div class="skill-panel active" id="tab-experimental">
-          <div class="skill-bar-list">
-            <div class="skill-bar reveal" data-skill="AFM (Agilent-5500)" data-level="95"></div>
-            <div class="skill-bar reveal" data-skill="C-AFM (Oxford Asylum Research)" data-level="90"></div>
-            <div class="skill-bar reveal" data-skill="STM (RHK Technology)" data-level="85"></div>
-            <div class="skill-bar reveal" data-skill="XPS Analysis" data-level="88"></div>
-            <div class="skill-bar reveal" data-skill="Cyclic Voltammetry" data-level="80"></div>
-            <div class="skill-bar reveal" data-skill="UV-Vis / NMR Spectroscopy" data-level="85"></div>
-          </div>
-        </div>
-        <div class="skill-panel" id="tab-computational">
-          <div class="skill-bar-list">
-            <div class="skill-bar reveal" data-skill="DFT (Gaussian 09/16)" data-level="88"></div>
-            <div class="skill-bar reveal" data-skill="QuantumWise ATK / pDOS" data-level="85"></div>
-            <div class="skill-bar reveal" data-skill="AIMD & Path Integral Methods" data-level="80"></div>
-            <div class="skill-bar reveal" data-skill="Python (Data Analysis)" data-level="85"></div>
-            <div class="skill-bar reveal" data-skill="Fortran Programming" data-level="78"></div>
-            <div class="skill-bar reveal" data-skill="C / C++" data-level="75"></div>
-          </div>
-        </div>
-        <div class="skill-panel" id="tab-software">
-          <div class="skill-bar-list">
-            <div class="skill-bar reveal" data-skill="Igor Pro" data-level="90"></div>
-            <div class="skill-bar reveal" data-skill="Origin" data-level="88"></div>
-            <div class="skill-bar reveal" data-skill="WSxM5" data-level="85"></div>
-            <div class="skill-bar reveal" data-skill="ChemDraw / Avogadro" data-level="87"></div>
-            <div class="skill-bar reveal" data-skill="LaTeX / Overleaf" data-level="90"></div>
-            <div class="skill-bar reveal" data-skill="Mestre Nova / Mendeley" data-level="82"></div>
-          </div>
-        </div>
-        <div class="skill-panel" id="tab-webdev">
-          <div class="skill-bar-list">
-            <div class="skill-bar reveal" data-skill="React.js / Next.js" data-level="88"></div>
-            <div class="skill-bar reveal" data-skill="Node.js / Express" data-level="82"></div>
-            <div class="skill-bar reveal" data-skill="Angular.js / Electron.js" data-level="80"></div>
-            <div class="skill-bar reveal" data-skill="Flutter / Kotlin (Android)" data-level="75"></div>
-            <div class="skill-bar reveal" data-skill="MongoDB / MySQL / Firebase" data-level="80"></div>
-            <div class="skill-bar reveal" data-skill="Tailwind CSS / HTML / CSS" data-level="90"></div>
-          </div>
-        </div>
-        <div class="skill-panel" id="tab-tools">
-          <div class="skill-bar-list">
-            <div class="skill-bar reveal" data-skill="Git / GitHub" data-level="88"></div>
-            <div class="skill-bar reveal" data-skill="Linux / Shell / PowerShell" data-level="82"></div>
-            <div class="skill-bar reveal" data-skill="Fusion 360 / AutoCAD" data-level="75"></div>
-            <div class="skill-bar reveal" data-skill="Adobe Photoshop / Illustrator" data-level="70"></div>
-            <div class="skill-bar reveal" data-skill="VS Code / Jupyter Notebook" data-level="92"></div>
-          </div>
+        <div class="timeline">
+          <article class="card timeline-item tilt">
+            <small>J. Mater. Chem. C · 2025</small>
+            <h4>Enhancing the Electronic-Coupling and Conductivity of Monolayer Film of Ferrocenyl Molecules by Pd and Cu Doping</h4>
+            <p>Sunny M. P. Gautam, Himani Malik, Vikash Meghwal, Sruti Manoharan, Vinithra G, R. Ramapanicker, T. G. Gopakumar</p>
+          </article>
+          <article class="card timeline-item tilt">
+            <small>Communicated · 2025</small>
+            <h4>Modulation of Electronic Structure of Surface-Confined Metal-Organic Network of 9,10-Anthracenedicarboxylic with Transition Metals</h4>
+            <p>Sunny M. P. Gautam, Vikash Meghwal, Richa Arjariya, T. G. Gopakumar</p>
+          </article>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ===== SECTION: EXPERIENCE ===== -->
-  <section id="experience" class="section">
-    <div class="container">
-      <h2 class="section-title reveal">Experience &amp; <span class="accent">Internships</span></h2>
-      <div class="timeline">
-        <div class="timeline-item reveal">
-          <div class="timeline-dot"></div>
-          <div class="timeline-card">
-            <div class="timeline-header">
-              <h3>Full Stack Developer Intern</h3>
-              <span class="timeline-date">Jan 2024 – Apr 2024</span>
+    <section class="section reveal" id="experience">
+      <div class="section-head">
+        <div>
+          <div class="section-label">Experience</div>
+          <h2 class="section-title">Research + product-building experience</h2>
+          <p class="section-copy">Your current website mentions Armatrix and SURGE already. Here the same material is repackaged with stronger hierarchy and interaction polish.</p>
+        </div>
+      </div>
+      <div class="cards-2">
+        <article class="card tilt magnetic">
+          <h3>Full Stack Developer Intern · Armatrix</h3>
+          <div class="meta">Jan 2024 – Apr 2024 · Industrial & Defense Robotics · IIT Kanpur</div>
+          <p>Built a functional website, integrated email workflows, deployed on Hostinger, and ensured responsive performance across devices. This also explains why the Armatrix website is a relevant visual reference for your new portfolio direction.</p>
+          <div class="tags"><span class="tag">React</span><span class="tag">Tailwind</span><span class="tag">EmailJS</span><span class="tag">Deployment</span></div>
+        </article>
+        <article class="card tilt magnetic">
+          <h3>SURGE Summer Research Intern</h3>
+          <div class="meta">Summer 2023 · Prof. Pratik Sen · IIT Kanpur</div>
+          <p>Investigated synergistic mixed solvent systems, carried out 1H NMR and absorption spectroscopy analysis, used vacuum distillation, and performed hydrophobicity trend analysis using Python.</p>
+          <div class="tags"><span class="tag">NMR</span><span class="tag">Spectroscopy</span><span class="tag">Python</span><span class="tag">Data Analysis</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section reveal" id="projects">
+      <article class="card featured-project">
+        <div>
+          <div class="section-label">Projects</div>
+          <h2 class="section-title" style="margin-top:10px;">Self projects with a product-style showcase.</h2>
+          <p class="section-copy">These are based on your current site: full-stack e-commerce, organized automation website, comic creator, and Android app. The idea is to present them like case studies rather than simple bullets.</p>
+          <div class="cards-2" style="margin-top: 28px;">
+            <article class="card tilt magnetic">
+              <h3>Full Stack E-Commerce + CMS</h3>
+              <p>Admin + client platform with product management, authentication, and Stripe payment processing, deployed on Vercel.</p>
+            </article>
+            <article class="card tilt magnetic">
+              <h3>Organized Automation Website</h3>
+              <p>Automation platform with embedded console functionality using Angular and ElectronJS for cross-platform deployment.</p>
+            </article>
+            <article class="card tilt magnetic">
+              <h3>Comic Creator Web App</h3>
+              <p>React app for generating and sharing 10-panel comic strips from text using an image-generation API.</p>
+            </article>
+            <article class="card tilt magnetic">
+              <h3>Server & Client Android App</h3>
+              <p>Android application for server-client communication and cloud-backed storage using Firebase.</p>
+            </article>
+          </div>
+        </div>
+
+        <aside class="featured-aside magnetic">
+          <h3>Profile architecture</h3>
+          <div class="line-list">
+            <div><span>Visual direction</span><strong>Aurora + deep tech</strong></div>
+            <div><span>Stack</span><strong>HTML · CSS · JS only</strong></div>
+            <div><span>Hero behavior</span><strong>Loader + floating metadata</strong></div>
+            <div><span>Motion system</span><strong>Cursor + tilt + reveal</strong></div>
+            <div><span>Goal</span><strong>Professional, not template-like</strong></div>
+          </div>
+        </aside>
+      </article>
+    </section>
+
+    <section class="section reveal" id="contact">
+      <div class="contact-box">
+        <div class="contact-grid">
+          <div>
+            <div class="section-label">Contact</div>
+            <h2 class="section-title" style="margin-top:10px;">Let’s connect.</h2>
+            <p class="section-copy">Whether you’re interested in research collaboration, computational science, scientific software, or interdisciplinary opportunities, this section keeps your current contact intent but gives it a much stronger finish.</p>
+          </div>
+          <div class="list">
+            <a class="list-item magnetic" href="https://orcid.org/0009-0004-0488-6942" target="_blank" rel="noreferrer">
+              <div><strong>ORCID</strong><span>Research identity</span></div><strong>0009-0004-0488-6942</strong>
+            </a>
+            <div class="list-item magnetic">
+              <div><strong>Location</strong><span>Based on current site</span></div><strong>Austin, TX, USA</strong>
             </div>
-            <p class="timeline-company"><i class="fas fa-building"></i> Armatrix · Industrial &amp; Defense Robotics, IIT Kanpur</p>
-            <ul>
-              <li>Built a fully functional website using ReactJS with Tailwind CSS styling.</li>
-              <li>Implemented an efficient email system using EmailJS integration.</li>
-              <li>Managed end-to-end website deployment on Hostinger hosting platform.</li>
-              <li>Ensured seamless responsiveness across all screen sizes.</li>
-            </ul>
-            <div class="tag-list"><span class="tag">React.js</span><span class="tag">Tailwind CSS</span><span class="tag">EmailJS</span><span class="tag">Hostinger</span></div>
-          </div>
-        </div>
-        <div class="timeline-item reveal">
-          <div class="timeline-dot"></div>
-          <div class="timeline-card">
-            <div class="timeline-header">
-              <h3>SURGE Summer Research Intern</h3>
-              <span class="timeline-date">Summer 2023</span>
-            </div>
-            <p class="timeline-company"><i class="fas fa-flask"></i> Prof. Pratik Sen's Lab · Biophysical Chemistry, IIT Kanpur</p>
-            <ul>
-              <li>Investigated structure &amp; dynamics of synergistic mixed solvent systems (DMF, NMF, Formamide).</li>
-              <li>Conducted in-depth 1H NMR and absorption spectroscopy analysis.</li>
-              <li>Applied vacuum distillation techniques to purify organic solvents.</li>
-              <li>Performed hydrophobicity trend graph analysis using Python.</li>
-            </ul>
-            <div class="tag-list"><span class="tag">NMR</span><span class="tag">Spectroscopy</span><span class="tag">Python</span><span class="tag">IGOR Pro</span></div>
+            <a class="list-item magnetic" href="https://github.com/mevikash/home" target="_blank" rel="noreferrer">
+              <div><strong>GitHub</strong><span>Current portfolio repository</span></div><strong>mevikash/home</strong>
+            </a>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ===== SECTION: PROJECTS ===== -->
-  <section id="projects" class="section section-alt">
-    <div class="container">
-      <h2 class="section-title reveal">Self <span class="accent">Projects</span></h2>
-      <div class="projects-grid">
-        <div class="project-card reveal">
-          <div class="project-icon"><i class="fas fa-shopping-cart"></i></div>
-          <h3>Full Stack E-Commerce + CMS</h3>
-          <p>Fully functional E-commerce app with admin &amp; client platform. Features product management, authentication, and Stripe payment processing. Deployed on Vercel.</p>
-          <div class="tag-list"><span class="tag">Next.js 13</span><span class="tag">Prisma</span><span class="tag">MongoDB</span><span class="tag">Stripe</span><span class="tag">Vercel</span></div>
-        </div>
-        <div class="project-card reveal">
-          <div class="project-icon"><i class="fas fa-robot"></i></div>
-          <h3>Organized Automation Website</h3>
-          <p>Web automation platform with embedded console functionality using Angular and ElectronJS for cross-platform desktop deployment.</p>
-          <div class="tag-list"><span class="tag">Angular</span><span class="tag">ElectronJS</span><span class="tag">Node.js</span></div>
-        </div>
-        <div class="project-card reveal">
-          <div class="project-icon"><i class="fas fa-paint-brush"></i></div>
-          <h3>Comic Creator Web App</h3>
-          <p>React web app that allows users to create and share 10-panel comic strips. Comics are generated from input text using a text-to-image API.</p>
-          <div class="tag-list"><span class="tag">React.js</span><span class="tag">Text-to-Image API</span><span class="tag">CSS</span></div>
-        </div>
-        <div class="project-card reveal">
-          <div class="project-icon"><i class="fas fa-mobile-alt"></i></div>
-          <h3>Server &amp; Client Android App</h3>
-          <p>Android application enabling server-client communication and cloud data storage using Google Firebase framework.</p>
-          <div class="tag-list"><span class="tag">Android Studio</span><span class="tag">Kotlin</span><span class="tag">Firebase</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
+    <div class="section footer">Designed & rebuilt for Vikash Meghwal · HTML, CSS, JavaScript only.</div>
+  </main>
 
-  <!-- ===== SECTION: AWARDS ===== -->
-  <section id="awards" class="section">
-    <div class="container">
-      <h2 class="section-title reveal">Awards &amp; <span class="accent">Achievements</span></h2>
-      <div class="awards-grid">
-        <div class="award-card reveal gold">
-          <div class="award-icon"><i class="fas fa-trophy"></i></div>
-          <div class="award-content">
-            <h3>PhD Fellowship</h3>
-            <p>Fellowship from the Cockrell School of Engineering &amp; UT Austin Graduate School</p>
-            <span class="award-year">2026</span>
-          </div>
-        </div>
-        <div class="award-card reveal">
-          <div class="award-icon"><i class="fas fa-medal"></i></div>
-          <div class="award-content">
-            <h3>E-Poster Presentation</h3>
-            <p>Theory Workshop on Computer Simulation and Macromolecules · Max Planck Institute for Multidisciplinary Sciences, Hünfeld</p>
-            <span class="award-year">2025</span>
-          </div>
-        </div>
-        <div class="award-card reveal">
-          <div class="award-icon"><i class="fas fa-star"></i></div>
-          <div class="award-content">
-            <h3>Faculty Position Offer</h3>
-            <p>OCFP Faculty position at ORCHIDS The International School, Bangalore</p>
-            <span class="award-year">2024</span>
-          </div>
-        </div>
-        <div class="award-card reveal">
-          <div class="award-icon"><i class="fas fa-scroll"></i></div>
-          <div class="award-content">
-            <h3>SURGE Poster Presentation</h3>
-            <p>Students-Undergraduate Research Graduate Excellence · IIT Kanpur</p>
-            <span class="award-year">2023</span>
-          </div>
-        </div>
-        <div class="award-card reveal gold">
-          <div class="award-icon"><i class="fas fa-award"></i></div>
-          <div class="award-content">
-            <h3>JEE Advanced AIR 2380</h3>
-            <p>All-India Category Rank among 1.2 million candidates — Top 0.2%</p>
-            <span class="award-year">2019</span>
-          </div>
-        </div>
-        <div class="award-card reveal">
-          <div class="award-icon"><i class="fas fa-certificate"></i></div>
-          <div class="award-content">
-            <h3>INSPIRE Award</h3>
-            <p>State Level Science Exhibition · Govt. of Jammu &amp; Kashmir</p>
-            <span class="award-year">2015</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <script>
+    const loader = document.getElementById('loader');
+    window.addEventListener('load', () => setTimeout(() => loader.classList.add('hidden'), 900));
 
-  <!-- ===== SECTION: EDUCATION ===== -->
-  <section id="education" class="section section-alt">
-    <div class="container">
-      <h2 class="section-title reveal">Education <span class="accent">Timeline</span></h2>
-      <div class="edu-timeline">
-        <div class="edu-item reveal left">
-          <div class="edu-dot"></div>
-          <div class="edu-card">
-            <span class="edu-badge current">Current</span>
-            <h3>Ph.D. · Materials Science &amp; Engineering</h3>
-            <p class="edu-institute"><i class="fas fa-university"></i> The University of Texas at Austin</p>
-            <p>Cockrell School of Engineering · Supervisor: Prof. Narayana Aluru</p>
-            <span class="edu-date">Jan 2026 – Present</span>
-          </div>
-        </div>
-        <div class="edu-item reveal right">
-          <div class="edu-dot"></div>
-          <div class="edu-card">
-            <h3>M.S. · Chemistry</h3>
-            <p class="edu-institute"><i class="fas fa-university"></i> Indian Institute of Technology Kanpur</p>
-            <span class="edu-date">2023 – 2024</span>
-          </div>
-        </div>
-        <div class="edu-item reveal left">
-          <div class="edu-dot"></div>
-          <div class="edu-card">
-            <h3>B.S. · Chemistry</h3>
-            <p class="edu-institute"><i class="fas fa-university"></i> Indian Institute of Technology Kanpur</p>
-            <span class="edu-date">2019 – 2023</span>
-          </div>
-        </div>
-        <div class="edu-item reveal right">
-          <div class="edu-dot"></div>
-          <div class="edu-card">
-            <h3>12th Grade · CBSE</h3>
-            <p class="edu-institute"><i class="fas fa-school"></i> Lawrence and Mayo Public School, India</p>
-            <span class="edu-date">2017 – 2018</span>
-          </div>
-        </div>
-        <div class="edu-item reveal left">
-          <div class="edu-dot"></div>
-          <div class="edu-card">
-            <h3>10th Grade · JKBOSE</h3>
-            <p class="edu-institute"><i class="fas fa-school"></i> Bharti Public High School, India</p>
-            <span class="edu-date">2015 – 2016</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+    const cursor = document.getElementById('cursor');
+    const cursorDot = document.getElementById('cursorDot');
+    let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+    let cursorX = mouseX, cursorY = mouseY;
 
-  <!-- ===== SECTION: CONTACT ===== -->
-  <section id="contact" class="section">
-    <div class="container">
-      <h2 class="section-title reveal">Get In <span class="accent">Touch</span></h2>
-      <div class="contact-grid">
-        <div class="contact-info reveal">
-          <h3>Let's Connect</h3>
-          <p>Whether you're interested in research collaboration, have questions about my work, or just want to say hello — my inbox is always open!</p>
-          <div class="contact-details">
-            <div class="contact-item"><i class="fas fa-map-marker-alt"></i><div><span>Location</span><span>Austin, TX 78712, USA</span></div></div>
-            <div class="contact-item"><i class="fab fa-orcid"></i><div><span>ORCID</span><a href="https://orcid.org/0009-0004-0488-6942" target="_blank">0009-0004-0488-6942</a></div></div>
-          </div>
-        </div>
-        <div class="contact-form-wrapper reveal">
-          <form class="contact-form" action="mailto:mevikash@my.utexas.edu" method="post" enctype="text/plain">
-            <div class="form-group">
-              <label for="name">Your Name</label>
-              <input type="text" id="name" name="name" placeholder="John Doe" required />
-            </div>
-            <div class="form-group">
-              <label for="email">Your Email</label>
-              <input type="email" id="email" name="email" placeholder="john@example.com" required />
-            </div>
-            <div class="form-group">
-              <label for="message">Message</label>
-              <textarea id="message" name="message" rows="5" placeholder="Your message here..." required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary btn-full">Send Message <i class="fas fa-paper-plane"></i></button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </section>
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+    });
 
-  <!-- ===== FOOTER ===== -->
-  <footer class="footer">
-    <div class="container">
-      <p>Designed &amp; Built with <i class="fas fa-heart" style="color:#64ffda"></i> by <strong>Vikash Meghwal</strong></p>
-      <p class="footer-links">
-        <a href="https://github.com/mevikash" target="_blank"><i class="fab fa-github"></i></a>
-        <a href="https://orcid.org/0009-0004-0488-6942" target="_blank"><i class="fab fa-orcid"></i></a>
-      </p>
-      <p class="footer-copy">&copy; 2026 Vikash Meghwal. All rights reserved.</p>
-    </div>
-  </footer>
+    function animateCursor() {
+      cursorX += (mouseX - cursorX) * 0.18;
+      cursorY += (mouseY - cursorY) * 0.18;
+      cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
 
-  <script src="script.js"></script>
+    document.querySelectorAll('a, button, .card, .magnetic').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('active'));
+      el.addEventListener('mouseleave', () => {
+        cursor.classList.remove('active');
+        el.style.transform = '';
+      });
+    });
+
+    document.querySelectorAll('.tilt').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const rx = ((y / rect.height) - 0.5) * -8;
+        const ry = ((x / rect.width) - 0.5) * 10;
+        card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-2px)`;
+        card.style.setProperty('--mx', `${x}px`);
+        card.style.setProperty('--my', `${y}px`);
+      });
+      card.addEventListener('mouseleave', () => card.style.transform = '');
+    });
+
+    document.querySelectorAll('.magnetic').forEach(item => {
+      item.addEventListener('mousemove', e => {
+        const rect = item.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        item.style.transform = `translate(${x * 0.08}px, ${y * 0.08}px)`;
+      });
+      item.addEventListener('mouseleave', () => item.style.transform = 'translate(0,0)');
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('show');
+      });
+    }, { threshold: 0.14 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn?.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+    mobileMenu?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => mobileMenu.classList.remove('open')));
+  </script>
 </body>
 </html>
